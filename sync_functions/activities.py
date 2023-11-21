@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from temporalio import activity
 import requests
+from temporalio import activity
 
 
 @dataclass

@@ -1,16 +1,7 @@
-import uuid
-
 import pytest
-
-
-from temporalio.worker import Worker
 from temporalio.testing import ActivityEnvironment
-from activities import get_weather_activity, WeatherParams
-from temporalio.client import Client
-from temporalio import activity
-from temporalio.worker import Worker
-from workflows import WeatherWorkflow
 
+from activities import WeatherParams, get_weather_activity
 
 mocked_forecast_data = [
     {

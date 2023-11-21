@@ -1,9 +1,10 @@
-from activities import WeatherParams
+import os
+
+from flask import Flask, render_template
 from temporalio.client import Client
 
+from activities import WeatherParams
 from workflows import WeatherWorkflow
-from flask import Flask, render_template
-import os
 
 # Construct an absolute path to the directory where templates are stored
 template_dir = os.path.abspath(

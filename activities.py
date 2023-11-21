@@ -1,14 +1,17 @@
+import socket
 from dataclasses import dataclass
+
 import aiohttp
 from aiohttp import TCPConnector
 from temporalio import activity
-import socket
+
 
 @dataclass
 class WeatherParams:
     office: str
     gridX: int
     gridY: int
+
 
 class WeatherActivities:
     def __init__(self):

@@ -1,9 +1,8 @@
-from activities import WeatherParams
-from temporalio.client import Client
-from datetime import timedelta
-from workflows import WeatherWorkflow
 from flask import Flask, render_template
+from temporalio.client import Client
 
+from activities import WeatherParams
+from workflows import WeatherWorkflow
 
 app = Flask(__name__)
 
