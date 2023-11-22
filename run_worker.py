@@ -1,5 +1,4 @@
 import asyncio
-import logging
 
 from temporalio.client import Client
 from temporalio.worker import Worker
@@ -14,15 +13,12 @@ async def main():
         client,
         task_queue="my-task-queue",
         workflows=[WeatherWorkflow],
-        activities=[WeatherActivities().get_weather],
+        activities=[WeatherActivities("https://api.weather.gov").get_weather],
     )
-
-    logging.info(f"Starting the worker....{client.identity}")
-
     try:
         await worker.run()
     finally:
-        await WeatherActivities().close()
+        await WeatherActivities("https://api.weather.gov").close()
 
 
 if __name__ == "__main__":

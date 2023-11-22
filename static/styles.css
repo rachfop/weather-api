@@ -68,3 +68,85 @@ h1 {
         padding: 0 20px;
     }
 }
+
+
+/* Link Styles */
+a {
+    display: inline-block;
+    background-color: #0056b3; /* Matching the deeper blue */
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none; /* Removes underline */
+    transition: background-color 0.3s ease-in-out;
+}
+
+a:hover {
+    background-color: #004494; /* Slightly darker on hover */
+}
+
+/* Centering link container on the home page */
+#link-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full height of the viewport */
+    text-align: center;
+}
+
+/* ... existing styles ... */
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between form elements */
+    align-items: center;
+}
+
+input[type="text"],
+input[type="number"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 250px; /* Fixed width for inputs */
+}
+
+button {
+    background-color: #0056b3;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 680px) {
+    input[type="text"],
+    input[type="number"] {
+        width: 80%; /* Make input fields responsive */
+    }
+}
+
+/* ... rest of your styles ... */

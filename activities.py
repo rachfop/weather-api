@@ -14,14 +14,15 @@ class WeatherParams:
 
 
 class WeatherActivities:
-    def __init__(self):
+    def __init__(self, base_url: str):
+        self.base_url = base_url
         # This will force the use of IPv4 and not IPv6 and bypass SSL certificate verification
         connector = TCPConnector(family=socket.AF_INET, ssl=False)
         self.session = aiohttp.ClientSession(connector=connector)
 
     @activity.defn
     async def get_weather(self, input: WeatherParams) -> list[dict]:
-        url = f"https://api.weather.gov/gridpoints/{input.office}/{input.gridX},{input.gridY}/forecast"
+        url = f"{self.base_url}/gridpoints/{input.office}/{input.gridX},{input.gridY}/forecast"
 
         async with self.session.get(url) as response:
             if response.status == 200:

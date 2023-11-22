@@ -6,11 +6,15 @@ from workflows import WeatherWorkflow
 
 app = Flask(__name__)
 
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 @app.route("/weather")
 async def get_weather():
     client = await Client.connect("localhost:7233")
-    weather_params = WeatherParams(office="SEW", gridX=123, gridY=61)
+
+    weather_params = WeatherParams("SEW", 123, 61)
     forecast_data = await client.execute_workflow(
         WeatherWorkflow.run,
         weather_params,
