@@ -7,13 +7,13 @@ from temporalio import activity
 @dataclass
 class WeatherParams:
     office: str
-    gridX: int
-    gridY: int
+    grid_x: int
+    grid_y: int
 
 
 @activity.defn
 async def get_weather_activity(input: WeatherParams) -> list[dict]:
-    url = f"https://api.weather.gov/gridpoints/{input.office}/{input.gridX},{input.gridY}/forecast"
+    url = f"https://api.weather.gov/gridpoints/{input.office}/{input.grid_x},{input.grid_y}/forecast"
     response = requests.get(url)
     if response.status_code == 200:
         forecast_data = response.json()

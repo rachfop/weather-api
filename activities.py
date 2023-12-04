@@ -1,38 +1,73 @@
-import socket
+# @@@SNIPSTART hello-weather-activities-imports
+import urllib.parse
 from dataclasses import dataclass
 
 import aiohttp
-from aiohttp import TCPConnector
 from temporalio import activity
+from temporalio.exceptions import ApplicationError
+# @@@SNIPEND
+
+@dataclass
+class ForecastPeriod:
+    name: str
+    startTime: str
+    endTime: str
+    temperature: int
+    temperatureUnit: str
+    windSpeed: str
+    windDirection: str
+    shortForecast: str
+    detailedForecast: str
 
 
 @dataclass
 class WeatherParams:
     office: str
-    gridX: int
-    gridY: int
+    grid_x: int
+    grid_y: int
 
 
 class WeatherActivities:
     def __init__(self, base_url: str):
         self.base_url = base_url
-        # This will force the use of IPv4 and not IPv6 and bypass SSL certificate verification
-        connector = TCPConnector(family=socket.AF_INET, ssl=False)
-        self.session = aiohttp.ClientSession(connector=connector)
+        self.session = aiohttp.ClientSession()
 
     @activity.defn
-    async def get_weather(self, input: WeatherParams) -> list[dict]:
-        url = f"{self.base_url}/gridpoints/{input.office}/{input.gridX},{input.gridY}/forecast"
+    async def get_weather(self, input: WeatherParams) -> list[ForecastPeriod]:
+        encoded_office = urllib.parse.quote_plus(input.office)
+        url = f"{self.base_url}/gridpoints/{encoded_office}/{input.grid_x},{input.grid_y}/forecast"
 
         async with self.session.get(url) as response:
-            if response.status == 200:
+            # Non-retryable client errors (400-499)
+            if 400 <= response.status < 500:
+                response_text = await response.text()
+                raise ApplicationError(
+                    f"Client error, status code {response.status}, response: {response_text}",
+                    non_retryable=True,
+                )
+
+            elif response.status == 200:
                 forecast_data = await response.json()
-                periods = forecast_data["properties"]["periods"]
+                periods = [
+                    ForecastPeriod(
+                        name=period["name"],
+                        startTime=period["startTime"],
+                        endTime=period["endTime"],
+                        temperature=period["temperature"],
+                        temperatureUnit=period["temperatureUnit"],
+                        windSpeed=period["windSpeed"],
+                        windDirection=period["windDirection"],
+                        shortForecast=period["shortForecast"],
+                        detailedForecast=period["detailedForecast"],
+                    )
+                    for period in forecast_data["properties"]["periods"]
+                ]
                 return periods
             else:
+                # For other errors, you can customize the behavior as needed
                 response_text = await response.text()
-                raise Exception(
-                    f"Could not retrieve weather data, status code {response.status}, response: {response_text}"
+                raise ApplicationError(
+                    f"Server error or unexpected status, status code {response.status}, response: {response_text}"
                 )
 
     async def close(self):

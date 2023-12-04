@@ -4,7 +4,7 @@ import concurrent.futures
 from temporalio.client import Client
 from temporalio.worker import Worker
 
-from activities import get_weather_activity
+from sync_activities import get_weather_activity
 from workflows import WeatherWorkflow
 
 

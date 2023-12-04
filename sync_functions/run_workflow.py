@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template
 from temporalio.client import Client
 
-from activities import WeatherParams
+from sync_activities import WeatherParams
 from workflows import WeatherWorkflow
 
 # Construct an absolute path to the directory where templates are stored
@@ -16,7 +16,7 @@ app = Flask(__name__, template_folder=template_dir)
 @app.route("/weather")
 async def get_weather():
     client = await Client.connect("localhost:7233")
-    weather_params = WeatherParams(office="SEW", gridX=123, gridY=61)
+    weather_params = WeatherParams(office="SEW", grid_x=123, grid_y=61)
     forecast_data = await client.execute_workflow(
         WeatherWorkflow.run,
         weather_params,
