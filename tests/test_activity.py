@@ -47,8 +47,7 @@ async def start_fake_weather_service():
     finally:
         await runner.cleanup()
 # @@@SNIPEND
-
-# @@SNIPSTART hello-weather-test-fixtures
+# @@@SNIPSTART hello-weather-test-fixtures
 TEST_BASE_URL = "http://localhost:8080"
 
 
