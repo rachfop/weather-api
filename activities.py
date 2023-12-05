@@ -6,7 +6,7 @@ import aiohttp
 from temporalio import activity
 from temporalio.exceptions import ApplicationError
 # @@@SNIPEND
-
+# @@@SNIPSTART hello-weather-activity-dataclass
 @dataclass
 class ForecastPeriod:
     name: str
@@ -25,8 +25,8 @@ class WeatherParams:
     office: str
     grid_x: int
     grid_y: int
-
-
+# @@@SNIPEND
+# @@@SNIPSTART hello-weather-activity-class
 class WeatherActivities:
     def __init__(self, base_url: str):
         self.base_url = base_url
@@ -72,3 +72,4 @@ class WeatherActivities:
 
     async def close(self):
         await self.session.close()
+# @@@SNIPEND

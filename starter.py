@@ -1,3 +1,4 @@
+# @@@SNIPSTART hello-weather-worker-imports
 import asyncio
 
 from temporalio.client import Client
@@ -5,7 +6,8 @@ from temporalio.worker import Worker
 
 from activities import WeatherActivities
 from workflows import WeatherWorkflow
-
+# @@@SNIPEND
+# @@@SNIPSTART hello-weather-worker
 interrupt_event = asyncio.Event()
 
 
@@ -36,3 +38,4 @@ if __name__ == "__main__":
         print("\nInterrupt received, shutting down...\n")
         interrupt_event.set()
         loop.run_until_complete(loop.shutdown_asyncgens())
+# @@@SNIPEND
